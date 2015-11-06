@@ -2,6 +2,7 @@
 import numpy as np
 import scipy.ndimage as nd
 import PIL.Image
+import cv2
 
 import caffe
 
@@ -49,8 +50,19 @@ def showResult(vis):
     vis = np.uint8(np.clip(vis, 0, 255))
 
     pimg = PIL.Image.fromarray(vis)
-
     pimg.show()
+
+    #showOpenCV(vis)
+
+
+def showOpenCV(image):
+    cv2.namedWindow("test", cv2.WND_PROP_FULLSCREEN)
+    cv2.setWindowProperty("test", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
+    bgr = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)#I think this is being converted both ways ...
+    cv2.imshow("test", bgr)
+    cv2.waitKey(0)  # Scripting languages are weird, It will not display without this
+    cv2.destroyAllWindows()
+
 
 def blur(img, sigma):
     if sigma > 0:
@@ -62,7 +74,7 @@ def blur(img, sigma):
 def objective_L2(dst):
     dst.diff[:] = dst.data
 
-def objective_L2_class(dst, imageNetClass = 366):
+def objective_L2_class(dst, imageNetClass = 386):
 
     one_hot = np.zeros_like(dst.data)
     one_hot.flat[imageNetClass] = 1.
