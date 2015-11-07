@@ -6,5 +6,5 @@ Makes images from network output class.  See: https://github.com/auduno/deepdraw
 
 Convolutional neural networks have lots of parameters!
 
-![ ](results/elephants1.jpg)      ![ ](results/elephant3.jpg)
+![ ](results/elephants1.jpg) ![ ](results/elephants2.jpg) ![ ](results/elephants3.jpg)
 
