@@ -33,16 +33,22 @@ def preprocess(net, img):
 def deprocess(net, img):
     return np.dstack((img + net.transformer.mean['data'])[::-1])
 
-def saveResult(index, end, vis):
+# def nameResult(index, end):
+#     return "output/" + str(index) + end.replace('/', '-') + ".jpg"
+
+def nameResultClass(imageNetClass):
+    return "output/" + 'Class ' + str(imageNetClass) + ".jpg"
+
+
+def saveResult(path, vis):
     # adjust image contrast and clip
     vis = vis*(255.0/np.percentile(vis, 99.98))
     vis = np.uint8(np.clip(vis, 0, 255))
 
     pimg = PIL.Image.fromarray(vis)
 
-    f = "frames/frame" + str(index) + end.replace('/', '-') + ".jpg"
-    pimg.save(f, 'jpeg')
-    print f
+    pimg.save(path, 'jpeg')
+
 
 def showResult(vis):
     # adjust image contrast and clip
@@ -74,20 +80,20 @@ def blur(img, sigma):
 def objective_L2(dst):
     dst.diff[:] = dst.data
 
-def objective_L2_class(dst, imageNetClass = 386):
+def objective_L2_class(dst, imageNetClass = 681):# 366 gorrilla, 386 elephant, 834 suit, notebook 681, tandem 444
 
     one_hot = np.zeros_like(dst.data)
     one_hot.flat[imageNetClass] = 1.
     dst.diff[:] = one_hot
 
-def make_step(net, end, sigma, step_size=3, objective=objective_L2_class):
+def make_step(net, netClass, end, sigma, step_size=3, objective=objective_L2_class):
     '''Basic gradient ascent step.'''
 
     src = net.blobs['data'] # input image is stored in Net's 'data' blob
     dst = net.blobs[end]
 
     net.forward(end=end)
-    objective(dst)  # specify the optimization objective
+    objective(dst, netClass)  # specify the optimization objective
     net.backward(start=end)
     g = src.diff[0]
 
@@ -98,7 +104,7 @@ def make_step(net, end, sigma, step_size=3, objective=objective_L2_class):
 
 ###################################################
 
-def deepdraw(net, base_img, octaves, **step_params):
+def deepdraw(net, base_img, octaves, netClass, **step_params):
     # reshape and load image
     source = net.blobs['data']
     h, w, c = base_img.shape[:]
@@ -106,7 +112,7 @@ def deepdraw(net, base_img, octaves, **step_params):
     source.data[0] = preprocess(net, base_img)
 
     vis = deprocess(net, source.data[0])
-    showResult(vis)
+    # showResult(vis)
 
     for e,o in enumerate(octaves):
         layer = o['layer']
@@ -115,10 +121,10 @@ def deepdraw(net, base_img, octaves, **step_params):
             sigma = o['start_sigma'] + ((o['end_sigma'] - o['start_sigma']) * i) / o['iter_n']
             step_size = o['start_step_size'] + ((o['end_step_size'] - o['start_step_size']) * i) / o['iter_n']
 
-            make_step(net, end=layer, sigma=sigma, step_size=step_size)
+            make_step(net, netClass, end=layer, sigma=sigma, step_size=step_size)
 
-        # visualization
-        vis = deprocess(net, source.data[0])
-        showResult(vis)
+    # visualization
+    vis = deprocess(net, source.data[0])
+    #showResult(vis)
 
-        saveResult(i, o['layer'], vis)
+    saveResult(nameResultClass(netClass), vis)

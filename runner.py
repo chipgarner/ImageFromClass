@@ -54,7 +54,7 @@ octaves = [
 #     {
 #         'layer':'loss3/classifier',
 #         'scale':1.2,
-#         'iter_n':2450,
+#         'iter_n':450,
 #         'start_sigma':0.78*1.2,
 #         'end_sigma':0.40,
 #         'start_step_size':6.,
@@ -64,9 +64,11 @@ octaves = [
 
 #Change the color palette. 100, 100, 50 makes more greens and browns, less blues and whites
 #lower numbers give darker colors
-background_color = np.float32([100.0, 100.0, 50.0])
+background_color = np.float32([100.0, 100.0, 100.0])
 # generate initial random image
 gen_image = np.random.normal(background_color, .001, (228, 228, 3))
 
 #????img = np.float32(PIL.Image.open('youandmeSmall.jpg'))
-ifc.deepdraw(net, gen_image, octaves)
+
+for i in range(4, 1000):
+    ifc.deepdraw(net, gen_image, octaves, i)
