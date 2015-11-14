@@ -82,5 +82,5 @@ background_color = np.float32([100.0, 100.0, 75.0])
 gen_image = np.random.normal(background_color, .001, (228, 228, 3))
 
 IFC = ifc.ImageFromClass()
-for i in range(0, 2):
+for i in range(1, 2):
     IFC.deepdraw(net, gen_image, octaves, i)
