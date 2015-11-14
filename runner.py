@@ -73,7 +73,7 @@ octaves = [
 # ]
 
 su.SetupCaffe.gpu_on()
-net = ml.NetModels.setup_places_model()
+net = ml.NetModels.setup_places_model('')
 
 # Change the color palette. 100, 100, 50 makes more greens and browns, less blues and whites
 # lower numbers give darker colors
