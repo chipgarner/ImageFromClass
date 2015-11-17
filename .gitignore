@@ -2,3 +2,5 @@
 /output
 *.pyc
 /output*
+/VGG19
+*.caffemodel

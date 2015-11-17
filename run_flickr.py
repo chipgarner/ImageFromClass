@@ -64,9 +64,9 @@ import models as ml
 octaves = [
     {
         'layer': 'fc8_flickr',
-        'iter_n': 500,
-        'start_sigma': 0.5,
-        'end_sigma': 0.0,
+        'iter_n': 10, # 800
+        'start_sigma': 2.5,
+        'end_sigma': 0.2,
         'start_step_size': 11.,
         'end_step_size': 3.
     }
@@ -77,10 +77,10 @@ net = ml.NetModels.setup_flickr_model('../../caffe-master/')
 
 # Change the color palette. 100, 100, 50 makes more greens and browns, less blues and whites
 # lower numbers give darker colors
-background_color = np.float32([150.0, 150.0, 150.0])
+background_color = np.float32([200.0, 200.0, 200.0])
 # generate initial random image
 gen_image = np.random.normal(background_color, .001, (228, 228, 3))
 
 IFC = ifc.ImageFromClass()
-for i in range(19, 20):
+for i in range(0, 2):
     IFC.deepdraw(net, gen_image, octaves, i)
