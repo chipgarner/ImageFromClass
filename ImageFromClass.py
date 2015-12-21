@@ -20,8 +20,10 @@ class ImageFromClass:
     def __deprocess(self, net, img):
         return np.dstack((img + net.transformer.mean['data'])[::-1])
 
+    labels = np.loadtxt('models/bvlc_googlenet/synset_words.txt', str, delimiter='\t')
     def __name_result_class(self, imageNetClass):
-        return "output/" + 'Class ' + str(imageNetClass) + ".jpg"
+
+        return "output/" + str(imageNetClass) + " " + self.labels[imageNetClass] + ".jpg"
 
     def __save_result(self, path, vis):
         # adjust image contrast and clip
@@ -75,6 +77,7 @@ class ImageFromClass:
         net.forward(end=end)
         objective(dst, netClass)  # specify the optimization objective
         net.backward(start=end)
+
         g = src.diff[0]
 
         # apply normalized ascent step to the input image
@@ -91,6 +94,8 @@ class ImageFromClass:
         source.reshape(1, 3, h, w)
         source.data[0] = self.__preprocess(net, base_img)
 
+        # self.__show_result(base_img)
+
         for e, o in enumerate(octaves):
             layer = o['layer']
 
@@ -102,6 +107,6 @@ class ImageFromClass:
 
         # visualization
         vis = self.__deprocess(net, source.data[0])
-        self.__show_result(vis)
+        # self.__show_result(vis)
 
         self.__save_result(self.__name_result_class(netClass), vis)

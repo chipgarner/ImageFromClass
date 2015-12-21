@@ -4,3 +4,4 @@
 /output*
 /VGG19
 *.caffemodel
+workspace.xml
