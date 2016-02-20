@@ -39,7 +39,7 @@ import models as ml
 #         'end_step_size':3.
 #     }
 # ]
-#
+
 # octaves = [
 #     {
 #         'layer':'loss3/classifier',
@@ -60,27 +60,26 @@ import models as ml
 #     }
 # ]
 
-## For testing
+# For testing
 octaves = [
     {
         'layer': 'loss1/classifier',
-        'iter_n': 200,
-        'start_sigma': 2.5,
-        'end_sigma': 0.78,
-        'start_step_size': 11.,
-        'end_step_size': 3.
+        'iter_n': 100,
+        'start_sigma': 1,
+        'end_sigma': 0.0,
+        'start_step_size': 6.,
+        'end_step_size': 1.
     }
 ]
 
-su.SetupCaffe.gpu_on()
-net = ml.NetModels.setup_googlenet_model('models/')
+net = ml.NetModels.setup_places_model('models/')
 
 # Change the color palette. 100, 100, 50 makes more greens and browns, less blues and whites
 # lower numbers give darker colors
-background_color = np.float32([100.0, 100.0, 75.0])
+background_color = np.float32([100.0, 100.0, 100.0])
 # generate initial random image
 gen_image = np.random.normal(background_color, .001, (228, 228, 3))
 
 IFC = ifc.ImageFromClass()
-for i in range(999, 1000):
+for i in range(0, 5):
     IFC.deepdraw(net, gen_image, octaves, i)

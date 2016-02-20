@@ -1,6 +1,5 @@
 import ImageFromClass as ifc
 import numpy as np
-import setup_caffe_network as su
 import models as ml
 
 octaves = [
@@ -14,8 +13,8 @@ octaves = [
     }
 ]
 
-#su.SetupCaffe.gpu_on() VGG won't fit on my 2 GB card
-net = ml.NetModels.setup_vgg('')
+# VGG won't fit on my 2 GB card
+net = ml.NetModels.setup_vgg('../CommonCaffe/TrainedModels/')
 
 # Change the color palette. 100, 100, 50 makes more greens and browns, less blues and whites
 # lower numbers give darker colors

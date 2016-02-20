@@ -5,7 +5,8 @@
       <excludeFolder url="file://$MODULE_DIR$/../CommonCaffe/.idea" />
     </content>
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <content url="file://$USER_HOME$/caffe-master/python" />
+    <orderEntry type="jdk" jdkName="Python 2.7.6 virtualenv at ~/cv3py2" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

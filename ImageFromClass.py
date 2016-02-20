@@ -9,6 +9,7 @@ class ImageFromClass:
     def __init__(self):
         pass
 
+    labels = np.loadtxt('models/bvlc_googlenet/synset_words.txt', str, delimiter='\t')
     # def load_image(image_relative_path):
     #     img = np.float32(PIL.Image.open(image_relative_path))
     #     return img
@@ -20,10 +21,10 @@ class ImageFromClass:
     def __deprocess(self, net, img):
         return np.dstack((img + net.transformer.mean['data'])[::-1])
 
-    labels = np.loadtxt('models/bvlc_googlenet/synset_words.txt', str, delimiter='\t')
     def __name_result_class(self, imageNetClass):
 
-        return "output/" + str(imageNetClass) + " " + self.labels[imageNetClass] + ".jpg"
+        return "output/" + str(imageNetClass) + ".jpg"
+        # return "output/" + str(imageNetClass) + " " + self.labels[imageNetClass] + ".jpg"
 
     def __save_result(self, path, vis):
         # adjust image contrast and clip
